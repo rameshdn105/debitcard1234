@@ -1,0 +1,35 @@
+name: CICD pipeline for debit card
+on:
+  push:
+    branches:
+      - main
+    
+      # workflow_dispatch: 
+#   workflow_call:
+#     inputs:
+#       environment: 
+#         type: String
+#         required: true
+#         description: provide the nev details
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+    - name: Setup JDK
+      uses: actions/setupJDK
+      with:
+        java-version: '17'
+        distribution: 'temerin'
+        cache: maven
+    - name: Build with maven
+      env:
+        VERSION: 1.0.0
+      run: |
+        cd project_code
+        mv clean install
+        cd target
+        ls
+
+
