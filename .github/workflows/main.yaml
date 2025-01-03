@@ -2,7 +2,7 @@ name: CICD pipeline for debit card
 on:
   push:
     branches:
-      - main
+      - master
     
       # workflow_dispatch: 
 #   workflow_call:
