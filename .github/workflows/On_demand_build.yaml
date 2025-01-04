@@ -1,0 +1,16 @@
+name: build app
+on:
+  workflow_dispatch:
+    inputs:
+      db_name: 
+        required: true
+        type: string
+        description: DB Name
+
+
+jobs: 
+  build:
+    uses: ./.github/workflows/main.yaml
+    with: 
+      db_database_name: ${{ github.event.inputs.db_name }}
+    secrets: inherit
