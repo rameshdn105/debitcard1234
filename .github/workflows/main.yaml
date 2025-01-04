@@ -18,13 +18,13 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Generate version
+    - name: generate version
       run: |
-        commitID=$(git rev-parse --short HEAD)
-        echo "1.0.0" >> VersionPrefix
-        VersionPrefix=$(cat VersionPrefix)
-        Version="${commitID}-${VersionPrefix}"
-        echo "Generated version: $Version"
+        commitid=$(git rev-parse --short HEAD)
+        semanticVersion="1.0.0"
+        export Ver=$semanticVersion-$commitid
+        echo "VERSION=$semanticVersion-$commitid" >> $GITHUB_ENV
+        echo "$Ver"
         
     - name: Build with maven
       env:
@@ -39,4 +39,12 @@ jobs:
         cd target
         ls
         echo "${{ inputs.db_database_name }}"
+
+    - name: Upload artifactory to GithubWorkspace
+      uses: actions/upload-artifact@v3
+      with:
+        name: DebitCardWar
+        path: |
+          ${{ GITHUB.WORKSPACE }}/project_code/target/**.war
+        
 
