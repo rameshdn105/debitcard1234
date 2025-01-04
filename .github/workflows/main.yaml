@@ -46,5 +46,9 @@ jobs:
         name: DebitCardWar-$ {{ env.Version }}
         path: |
           ${{ GITHUB.WORKSPACE }}/project_code/target/**.war
+
+    - name: Upload Build Artifact to JFrogArtifactory
+      run: |
+          curl -u ${{ secrets.JFROG_USER }}:${{ secrets.JFROG_PASS }} -X PUT "http://18.116.72.114:8081/artifactory/generic-local/Ramesh/debitcard/debitcardapp.${{ env.VERSION }}.war" -T ${{ github.workspace }}/project_code/target/*.war
         
 
