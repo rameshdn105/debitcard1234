@@ -20,11 +20,11 @@ jobs:
         cache: maven
     - name: Generate version
       run: |
-        echo "The commit ID is ${{ github.sha }}" >> FullcommitID
+        # echo "The commit ID is ${{ github.sha }}" >> FullcommitID
         echo "1.0.0" >> VersionPrefix
-        FullcommitID=$(cat FullcommitID)
+        # FullcommitID=$(cat FullcommitID)
+        # VersionPrefix=$(cat VersionPrefix)
         commitID=$(git rev-parse --short HEAD)
-        VersionPrefix=$(cat VersionPrefix)
         Version="${commitID}-${VersionPrefix}"
         echo "Generated version: $Version"
         
