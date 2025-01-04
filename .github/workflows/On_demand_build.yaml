@@ -1,15 +1,14 @@
 name: build app
 on:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
   workflow_dispatch:
     inputs:
       db_name: 
         required: true
         type: string
         description: DB Name
-
 
 jobs: 
   build:

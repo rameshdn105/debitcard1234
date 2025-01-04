@@ -18,6 +18,15 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Generate version
+      run: |
+        echo "The commit ID is ${{ github.sha }}" >> commitID
+        echo "1.0.0" >> VersionPrefix
+        commitID=$(cat commitID)
+        VersionPrefix=$(cat VersionPrefix)
+        Version="${commitID}-${VersionPrefix}"
+        echo "Generated version: $Version"
+      
     - name: Build with maven
       env:
         VERSION: 1.0.0
