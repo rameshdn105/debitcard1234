@@ -25,6 +25,14 @@ jobs:
         export Ver=$semanticVersion-$commitid
         echo "VERSION=$semanticVersion-$commitid" >> $GITHUB_ENV
         echo "$Ver"
+    
+    - name: Cache SonarQube dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar-${{ hashFiles('**/*.java') }}
+        restore-keys: |
+          ${{ runner.os }}-sonar-
         
     - name: Build with maven
       env:
@@ -50,5 +58,13 @@ jobs:
     - name: Upload Build Artifact to JFrogArtifactory
       run: |
           curl -u ${{ secrets.JFROG_USER }}:${{ secrets.JFROG_PASS }} -X PUT "http://18.116.72.114:8081/artifactory/generic-local/Ramesh/debitcard/debitcardapp.${{ env.VERSION }}.war" -T ${{ github.workspace }}/project_code/target/*.war
-        
+    
+    - name: SonarQube Scan
+      uses: SonarSource/sonarcloud-github-action@v1
+      with:
+        sonar-token: ${{ secrets.SONAR_TOKEN }}
+  
+    - name: SonarQube Scan Results
+      run: |
+        echo "SonarQube analysis complete."
 
