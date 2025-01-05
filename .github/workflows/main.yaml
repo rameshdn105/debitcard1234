@@ -12,12 +12,14 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
+
     - name: Setup JDK
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+
     - name: generate version
       run: |
         commitid=$(git rev-parse --short HEAD)
@@ -59,6 +61,13 @@ jobs:
       run: |
           curl -u ${{ secrets.JFROG_USER }}:${{ secrets.JFROG_PASS }} -X PUT "http://18.116.72.114:8081/artifactory/generic-local/Ramesh/debitcard/debitcardapp.${{ env.VERSION }}.war" -T ${{ github.workspace }}/project_code/target/*.war
     
+    # Explicitly set JAVA_HOME to Java 17 before SonarQube Scan
+    - name: Set JAVA_HOME to Java 17
+      run: echo "JAVA_HOME=${{ github.workspace }}/.jdk/temurin-17" >> $GITHUB_ENV
+
+    - name: Check Java Version
+      run: java -version
+
     - name: SonarQube Scan
       uses: SonarSource/sonarcloud-github-action@v1
       with:
