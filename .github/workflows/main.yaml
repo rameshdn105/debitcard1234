@@ -62,8 +62,8 @@ jobs:
           curl -u ${{ secrets.JFROG_USER }}:${{ secrets.JFROG_PASS }} -X PUT "http://18.116.72.114:8081/artifactory/generic-local/Ramesh/debitcard/debitcardapp.${{ env.VERSION }}.war" -T ${{ github.workspace }}/project_code/target/*.war
     
     # Explicitly set JAVA_HOME to Java 17 before SonarQube Scan
-    - name: Set JAVA_HOME to Java 17
-      run: echo "JAVA_HOME=${{ github.workspace }}/.jdk/temurin-17" >> $GITHUB_ENV
+    - name: Set JAVA_HOME to Java 17 explicitly
+      run: echo "JAVA_HOME=$(which java | sed 's:/bin/java::')" >> $GITHUB_ENV
 
     - name: Check Java Version
       run: java -version
