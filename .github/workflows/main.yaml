@@ -109,7 +109,7 @@ jobs:
 
     - name: Tag & push docker image
       run: |
-        docker tag debitcardapp:1.0.0-89f2aa5 ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/debitcard-123/debitcardapp:${{ env.VERSION }}:latest
+        docker tag debitcardapp:${{ env.VERSION }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/debitcard-123/debitcardapp:${{ env.VERSION }}:latest
         docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-west-2.amazonaws.com/debitcardapp:${{ env.VERSION }}:latest
 
 
