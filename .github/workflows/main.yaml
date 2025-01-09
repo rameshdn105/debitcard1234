@@ -109,12 +109,12 @@ jobs:
 
     - name: Tag docker image
       run: |
-        docker tag debitcardapp:${{ env.VERSION }} debitcard-123/debitcardapp:${{ env.VERSION }}/latest
+        docker tag debitcardapp:${{ env.VERSION }} debitcard-123/debitcardapp:${{ env.VERSION }}:latest
     
     # Push Docker image to ECR
     - name: Push Docker image to ECR
       run: |
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-west-2.amazonaws.com/debitcardapp:${{ env.VERSION }}/latest
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-west-2.amazonaws.com/debitcardapp:${{ env.VERSION }}:latest
 
 
 
