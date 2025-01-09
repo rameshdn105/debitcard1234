@@ -93,17 +93,17 @@ jobs:
         aws s3 cp $ARTIFACT_PATH s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY
 
 #  Install Docker on the runner (GitHub Actions Ubuntu runners do not have Docker by default)
-#     - name: Install Docker
-#       run: |
-#         sudo apt-get update
-#         sudo apt-get install -y docker.io
-#         sudo systemctl start docker
-#         sudo systemctl enable docker
-#         docker --version  # Verify Docker is installed
+    - name: Install Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+        sudo systemctl start docker
+        sudo systemctl enable docker
+        docker --version  # Verify Docker is installed
 
-    # - name: Build Docker Image
-    #   run: |
-    #     docker build -t debitcardapp:${{ env.VERSION }} .
+    - name: Build Docker Image
+      run: |
+        docker build -t debitcardapp:${{ env.VERSION }} .
 
 
 
