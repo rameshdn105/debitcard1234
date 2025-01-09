@@ -54,7 +54,7 @@ jobs:
         echo "${{ inputs.db_database_name }}"
 
     - name: Upload artifactory to GithubWorkspace
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3.0.0
       with:
         name: DebitCardWar-${{ env.VERSION }}
         path: |
