@@ -111,7 +111,7 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t Dockerfile debitcardapp:${{ env.VERSION }} .
+        docker build Dockerfile -t debitcardapp:${{ env.VERSION }} .
 
 
 
