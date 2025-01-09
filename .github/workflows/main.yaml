@@ -65,29 +65,30 @@ jobs:
     #       curl -u ${{ secrets.JFROG_USER }}:${{ secrets.JFROG_PASS }} -X PUT "http://18.116.72.114:8081/artifactory/generic-local/Ramesh/debitcard/debitcardapp.${{ env.VERSION }}.war" -T ${{ github.workspace }}/project_code/target/*.war
       
         
-    # Install AWS CLI (if not already installed)
-    - name: Install AWS CLI
-      run: |
-        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip awscliv2.zip
-        sudo ./aws/install
-        aws --version  # Verify AWS CLI installation
+    # # Install AWS CLI (if not already installed)
+    # - name: Install AWS CLI
+    #   run: |
+    #     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    #     unzip awscliv2.zip
+    #     sudo ./aws/install
+    #     aws --version  # Verify AWS CLI installation
 
     # Configure AWS credentials (using GitHub secrets)
     - name: Configure AWS Credentials
       run: |
         aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws configure set region ${{ secrets.AWS_REGION }}
+        aws configure set region "${{ secrets.AWS_REGION }}"
 
     # Upload artifact to AWS S3
     - name: Upload Artifact to S3
       run: |
         # Define the path and bucket name
-        S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }}
-        ARTIFACT_PATH="${{ github.workspace }}/project_code/target/debitcardapp-${{ env.VERSION }}.war"
+        S3_BUCKET_NAME="pipeline-shyam/Github_Pipeline"
+        ARTIFACT_PATH="${{ GITHUB.WORKSPACE }}/project_code/target/**.war"
         S3_OBJECT_KEY="debitcardapp-${{ env.VERSION }}.war"
         
+
         # Upload the artifact to S3
         aws s3 cp $ARTIFACT_PATH s3://$S3_BUCKET_NAME/$S3_OBJECT_KEY
 
