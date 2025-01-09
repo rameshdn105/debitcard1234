@@ -65,13 +65,7 @@ jobs:
     #       curl -u ${{ secrets.JFROG_USER }}:${{ secrets.JFROG_PASS }} -X PUT "http://18.116.72.114:8081/artifactory/generic-local/Ramesh/debitcard/debitcardapp.${{ env.VERSION }}.war" -T ${{ github.workspace }}/project_code/target/*.war
       
         
-    # # Install AWS CLI (if not already installed)
-    # - name: Install AWS CLI
-    #   run: |
-    #     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    #     unzip awscliv2.zip
-    #     sudo ./aws/install
-    #     aws --version  # Verify AWS CLI installation
+    # Install AWS CLI is pre-installed in GithubHosted runners
 
     # Configure AWS credentials (using GitHub secrets)
     - name: Configure AWS Credentials
