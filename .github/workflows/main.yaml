@@ -1,5 +1,8 @@
 name: CICD pipeline for debit card
 on:
+  push:
+    branches:
+        - master
   workflow_call:
     inputs:
       db_database_name: 
@@ -61,25 +64,47 @@ jobs:
       run: |
           curl -u ${{ secrets.JFROG_USER }}:${{ secrets.JFROG_PASS }} -X PUT "http://18.116.72.114:8081/artifactory/generic-local/Ramesh/debitcard/debitcardapp.${{ env.VERSION }}.war" -T ${{ github.workspace }}/project_code/target/*.war
     
-    # Explicitly set JAVA_HOME to Java 17 before SonarQube Scan
-    - name: Set JAVA_HOME to Java 17 explicitly
-      run: echo "JAVA_HOME=$(which java | sed 's:/bin/java::')" >> $GITHUB_ENV
-
-    - name: Check Java Version
-      run: java -version
-
-    - name: SonarQube Scan
-      uses: SonarSource/sonarcloud-github-action@v1
-      with:
-        projectBaseDir: .
-        args: >
-          -Dsonar.organization=debicard_App
-          -Dsonar.projectKey=debicard_App
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-  
-    - name: SonarQube Scan Results
+# Install Docker on the runner (GitHub Actions Ubuntu runners do not have Docker by default)
+    - name: Install Docker
       run: |
-        echo "SonarQube analysis complete."
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+        sudo systemctl start docker
+        sudo systemctl enable docker
+        docker --version  # Verify Docker is installed
+
+    # - name: Build Docker Image
+    #   run: |
+    #     docker build -t debitcardapp:${{ env.VERSION }} .
+
+
+
+
+
+
+
+
+
+
+    # # Explicitly set JAVA_HOME to Java 17 before SonarQube Scan
+    # - name: Set JAVA_HOME to Java 17 explicitly
+    #   run: echo "JAVA_HOME=$(which java | sed 's:/bin/java::')" >> $GITHUB_ENV
+
+    # - name: Check Java Version
+    #   run: java -version
+
+    # - name: SonarQube Scan
+    #   uses: SonarSource/sonarcloud-github-action@v1
+    #   with:
+    #     projectBaseDir: .
+    #     args: >
+    #       -Dsonar.organization=debicard_App
+    #       -Dsonar.projectKey=debicard_App
+    #   env:
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+  
+    # - name: SonarQube Scan Results
+    #   run: |
+    #     echo "SonarQube analysis complete."
 
