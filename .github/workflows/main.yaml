@@ -109,14 +109,13 @@ jobs:
 
     - name: Build Docker Image
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REGISTRY: "https://us-east-2.console.aws.amazon.com/ecr/get-started?region=us-east-2"
         ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPO }}
       run: |
-        
-
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+        docker build -t debitcardapp:latest .
+        docker tag debitcardapp:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-# docker build -t debitcardapp:latest .
+
     # - name: Tag & push docker image
     #   run: |
     #     docker tag debitcardapp:${{ env.VERSION }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/debitcard-123/debitcardapp:${{ env.VERSION }}:latest
