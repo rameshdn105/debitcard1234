@@ -108,13 +108,13 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Build Docker Image
-      env:
-        ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-2.amazonaws.com
-        ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPO }}
+      # env:
+      #   ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-2.amazonaws.com
+      #   # ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPO }}
       run: |
         docker build -t debitcardapp:latest .
-        docker tag debitcardapp:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker tag debitcardapp:latest 565393024864.dkr.ecr.us-east-2.amazonaws.com/debitcard-123:latest
+        docker push 565393024864.dkr.ecr.us-east-2.amazonaws.com/debitcard-123:latest
 
 
     # - name: Tag & push docker image
