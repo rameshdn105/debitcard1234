@@ -1,0 +1,29 @@
+import json
+import boto3
+
+s3Client = boto3.client('s3')
+snsClient = boto3.client('sns')  # Corrected here
+
+def lambda_handler(event, context):
+    print(event)
+    s3buckets = s3Client.list_buckets()
+    
+    buckets = s3buckets['Buckets']
+    for x in buckets:
+        print(x['Name'])
+
+    # Prepare the message with bucket names
+    message = f"S3 Bucket List: {', '.join([x['Name'] for x in buckets])}"
+    sns_topic_arn = "arn:aws:sns:us-east-2:565393024864:Ramesh-deomo1"
+
+    # Send the message to SNS topic
+    snsClient.publish(
+        TopicArn=sns_topic_arn,
+        Message=message,
+        Subject="S3 Bucket List Notification"
+    )
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps('S3 bucket list sent to SNS')
+    }
