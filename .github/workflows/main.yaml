@@ -30,7 +30,6 @@ jobs:
         export Ver=$semanticVersion-$commitid
         echo "VERSION=$semanticVersion-$commitid" >> $GITHUB_ENV
         echo "$Ver"
-        echo "we are usig self hosted runner" 
     # - name: Cache SonarQube dependencies
     #   uses: actions/cache@v3
     #   with:
